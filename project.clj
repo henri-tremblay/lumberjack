@@ -6,4 +6,6 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [incanter "1.4.1"]
                  [clj-time "0.4.5"]]
+  :plugins [
+            [lein-midje "3.1.3"]]
   :profiles {:dev {:dependencies [[midje "1.5.0"]]}})
