@@ -1,4 +1,4 @@
-package ca.yp.lumberjack;
+package pro.tremblay.lumberjack;
 
 import java.io.IOException;
 import java.nio.file.Files;
