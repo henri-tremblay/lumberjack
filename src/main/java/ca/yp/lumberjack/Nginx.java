@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -35,8 +36,8 @@ public class Nginx {
         if(!matcher.matches()) {
             throw new IllegalArgumentException("Invalid log line " + line);
         }
-        Map<Part, String> result = new HashMap<>();
         int count = matcher.groupCount();
+        Map<Part, String> result = new HashMap<>(count);
         Part[] values = Part.values();
         for (int i = 0; i <= count; i++) {
             result.put(values[i], matcher.group(i));
@@ -53,9 +54,11 @@ public class Nginx {
     }
 
     public static void main(String... filenames) throws Exception {
-        List result = Stream.of(filenames)
+        List<Map<Part, String>> result = Stream.of(filenames)
                 .map(Nginx::readFile)
-                .flatMap(lineStream -> lineStream.map(Nginx::parseLine)).collect(Collectors.toList());
+                .flatMap(Function.identity())
+                .map(Nginx::parseLine)
+                .collect(Collectors.toList());
         System.out.println(result);
     }
 }
